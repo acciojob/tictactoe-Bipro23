@@ -3,11 +3,39 @@
 <html>
 
 <head>
-	<link rel="stylesheet" href="styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@500&family=Quattrocento&family=Quattrocento+Sans&family=Ruda&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Heebo:wght@500&family=Quattrocento&family=Quattrocento+Sans&family=Ruda&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">	
 </head>
 
 <body>
 	<!-- the entire body must be written by student -->
+	<h1><center>Tic Tac Toe</center></h1>
+	<div id="root">
+		<div class="message"></div>
+		<div id="first">
+		<label>Player 1</label>
+		<input placeholder="enter name" id="player1" required><br>
+		<label>Player 2</label>
+		<input placeholder="enter name" id="player2" required><br>
+		<button id="submit">Start Game</button>
+		</div>
+		<div id="second">
+			<div class="board" id="1"></div>
+			<div class="board" id="2"></div>
+			<div class="board" id="3"></div>
+			<div class="board" id="4"></div>
+			<div class="board" id="5"></div>
+			<div class="board" id="6"></div>
+			<div class="board" id="7"></div>
+			<div class="board" id="8"></div>
+			<div class="board" id="9"></div>
+		</div>
+	</div>
     <script type="text/javascript" src="./script.js">
 </script>
 

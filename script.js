@@ -1,80 +1,70 @@
-//your JS code here. If required.
-//your JS code here. If required.
-const btn=document.getElementById("submit");
-let turn=true;
-let p1="";
-let p2="";
-const message=document.getElementsByClassName("message")[0];
-btn.addEventListener("click",()=>{
-	const first=document.getElementById("first");
-	first.style.display="none";
-	const second=document.getElementById("second");
-	second.style.display="grid";
-	message.style.display="flex";
-    p1=document.getElementById("player1").value;
-    p2=document.getElementById("player2").value;
-	message.textContent=p1+", you're up"
-})
-console.log(p1);
-console.log(p2);
-const box=document.getElementsByClassName("board");
-for(let i=0;i<box.length;i++){
-	box[i].addEventListener("click",(event)=>{
-		event.preventDefault();
-		mark(event);
-	})
+const player1Input = document.getElementById("player1");
+const player2Input = document.getElementById("player2");
+const submitButton = document.getElementById("submit");
+const messageDiv = document.querySelector(".message");
+const cells = document.querySelectorAll(".cell");
+
+let currentPlayer = "X";
+
+submitButton.addEventListener("click", startGame);
+
+function startGame() {
+    const player1Name = player1Input.value;
+    const player2Name = player2Input.value;
+
+    if (!player1Name || !player2Name) {
+        alert("Please enter names for both players.");
+        return;
+    }
+
+    player1Input.disabled = true;
+    player2Input.disabled = true;
+    submitButton.disabled = true;
+
+    messageDiv.textContent = `${player1Name}, you're up!`;
+
+    cells.forEach(cell => {
+        cell.addEventListener("click", () => makeMove(cell, player1Name, player2Name));
+    });
 }
-function mark(event) {
-	if(turn==true){
-		event.target.textContent="x";
-		if(checkWin(true)){
-			message.textContent=p1+" congratulations you won!";
-			return;
-		}
-		message.textContent=p2+", you're up";
-		turn=false;
-		//event.removeEventListener("click",(event)=>{});
-	}
-	else{
-		event.target.textContent="o";
-		if(checkWin(false)){
-			message.textContent=p2+" congratulations you won!";
-			return;
-		}
-		message.textContent=p1+", you're up";
-		turn=true;
-		//event.removeEventListener("click",(event)=>{});
-	}
+
+function makeMove(cell, player1Name, player2Name) {
+    if (cell.textContent === "") {
+        cell.textContent = currentPlayer;
+        cell.style.pointerEvents = "none";
+
+        if (checkWin()) {
+            messageDiv.textContent = `${currentPlayer === "X" ? player1Name : player2Name} congratulations, you won!`;
+            cells.forEach(cell => (cell.style.pointerEvents = "none"));
+        } else {
+            currentPlayer = currentPlayer === "X" ? "O" : "X";
+            messageDiv.textContent = `${currentPlayer === "X" ? player1Name : player2Name}, you're up!`;
+        }
+    }
 }
-    const div1=document.getElementById("1")
-	const div2=document.getElementById("2")
-	const div3=document.getElementById("3")
-	const div4=document.getElementById("4")
-	const div5=document.getElementById("5")
-	const div6=document.getElementById("6")
-	const div7=document.getElementById("7")
-	const div8=document.getElementById("8")
-	const div9=document.getElementById("9")
-function checkWin(player) {
-	if(player){
-		if(div1.textContent==='x'&&div2.textContent==='x'&&div3.textContent==='x')return true;
-		else if(div1.textContent=='x'&&div4.textContent=='x'&&div7.textContent=='x')return true;
-		else if(div3.textContent=='x'&&div6.textContent=='x'&&div9.textContent=='x')return true;
-		else if(div7.textContent=='x'&&div8.textContent=='x'&&div9.textContent=='x')return true;
-		else if(div1.textContent=='x'&&div5.textContent=='x'&&div9.textContent=='x')return true;
-		else if(div3.textContent=='x'&&div5.textContent=='x'&&div7.textContent=='x')return true;
-		else if(div4.textContent=='x'&&div5.textContent=='x'&&div6.textContent=='x')return true;
-		else if(div2.textContent=='x'&&div5.textContent=='x'&&div8.textContent=='x')return true;
-	}
-	else{
-		if(div1.textContent=='o'&&div2.textContent=='o'&&div3.textContent=='o')return true;
-		else if(div1.textContent=='o'&&div4.textContent=='o'&&div7.textContent=='o')return true;
-		else if(div3.textContent=='o'&&div6.textContent=='o'&&div9.textContent=='o')return true;
-		else if(div7.textContent=='o'&&div8.textContent=='o'&&div9.textContent=='o')return true;
-		else if(div1.textContent=='o'&&div5.textContent=='o'&&div9.textContent=='o')return true;
-		else if(div3.textContent=='o'&&div5.textContent=='o'&&div7.textContent=='o')return true;
-		else if(div4.textContent=='o'&&div5.textContent=='o'&&div6.textContent=='o')return true;
-		else if(div2.textContent=='o'&&div5.textContent=='o'&&div8.textContent=='o')return true;
-	}
-	return false;
+
+function checkWin() {
+    const winningCombos = [
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9],
+        [1, 4, 7],
+        [2, 5, 8],
+        [3, 6, 9],
+        [1, 5, 9],
+        [3, 5, 7]
+    ];
+
+    for (const combo of winningCombos) {
+        const [a, b, c] = combo;
+        if (
+            cells[a - 1].textContent === cells[b - 1].textContent &&
+            cells[b - 1].textContent === cells[c - 1].textContent &&
+            cells[a - 1].textContent !== ""
+        ) {
+            return true;
+        }
+    }
+
+    return false;
 }
